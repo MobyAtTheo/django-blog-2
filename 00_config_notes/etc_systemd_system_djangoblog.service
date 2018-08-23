@@ -1,0 +1,15 @@
+[Unit]
+Description=Unit for starting the Django blog
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ubuntu/django-blog-2
+ProtectHome=false
+Environment=SECRET_KEY=<thesecretkey>
+Environment=DJANGO_SETTINGS_MODULE=mysite.production
+Environment=DATABASE_URL=<see .django_password file>
+Environment=ALLOWED_HOSTS=<outside_IP or dns name>
+ExecStart=/opt/ubuntu/django-blog-2/.venv/bin/python3 /opt/ubuntu/django-blog-2/.venv/bin/gunicorn --preload --chdir=/opt/ubuntu/django-blog-2 mysite.wsgi -b 127.0.0.1:8000 -w 4
+
+[Install]
+WantedBy=multi-user.target
